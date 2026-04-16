@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>هدية ورد متحركة</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#ffe6f0,#ffffff);
+  font-family: Tahoma;
+  overflow:hidden;
+}
+
+/* ورود متساقطة */
+.petal {
+  position:absolute;
+  top:-10px;
+  font-size:18px;
+  animation: fall linear infinite;
+  opacity:0.8;
+}
+
+@keyframes fall {
+  0% {transform: translateY(-10px) rotate(0deg);}
+  100% {transform: translateY(110vh) rotate(360deg);}
+}
+
+/* البطاقة */
+.card{
+  width:360px;
+  background:#fff;
+  border-radius:25px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.15);
+  text-align:center;
+  overflow:hidden;
+  animation: pop 1s ease;
+  z-index:2;
+}
+
+@keyframes pop{
+  from{transform:scale(0.5); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+/* صورة الورد */
+.image{
+  height:230px;
+  background:url("https://images.unsplash.com/photo-1520763185298-1b434c919102") center/cover;
+  animation: pulse 2.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+  100%{transform:scale(1);}
+}
+
+.title{
+  font-size:22px;
+  color:#c2185b;
+  font-weight:bold;
+  margin-top:15px;
+}
+
+.desc{
+  font-size:14px;
+  color:#555;
+  padding:0 15px;
+  line-height:1.7;
+}
+
+.btn{
+  display:inline-block;
+  margin:15px 0 20px;
+  padding:10px 25px;
+  background:#c2185b;
+  color:#fff;
+  border-radius:30px;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#880e4f;
+  transform:scale(1.1);
+}
+
+/* قلوب خفيفة */
+.heart{
+  position:absolute;
+  color:#ff4d88;
+  font-size:16px;
+  animation: floatUp 6s linear infinite;
+  opacity:0.6;
+}
+
+@keyframes floatUp{
+  0%{transform:translateY(100vh); opacity:0;}
+  50%{opacity:1;}
+  100%{transform:translateY(-10vh); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ورود متساقطة -->
+<script>
+for(let i=0;i<18;i++){
+  let petal = document.createElement("div");
+  petal.className = "petal";
+  petal.innerHTML = "🌹";
+  petal.style.left = Math.random()*100 + "vw";
+  petal.style.animationDuration = (3+Math.random()*5) + "s";
+  document.body.appendChild(petal);
+}
+</script>
+
+<!-- قلوب -->
+<script>
+for(let i=0;i<10;i++){
+  let heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.animationDuration = (4+Math.random()*4) + "s";
+  document.body.appendChild(heart);
+}
+</script>
+
+<!-- البطاقة -->
+<div class="card">
+  <div class="image"></div>
+
+  <div class="title">🌹 باقة ورد لكِ</div>
+
+  <div class="desc">
+    هذه الباقة ليست مجرد زهور، بل رسالة حب وتقدير لشخص مميز في حياتي.
+    كل وردة تحمل معنى، وكل لون يعبّر عن شعور جميل لا يُقال بالكلام.
+  </div>
+
+  <a href="#" class="btn">إهداء خاص 💝</a>
+</div>
+
+</body>
+</html>
