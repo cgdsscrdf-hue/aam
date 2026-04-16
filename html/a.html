@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>iPhone Full UI Pro</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#111;
+  font-family:-apple-system;
+}
+
+/* الجهاز */
+.phone{
+  width:320px;
+  height:700px;
+  border-radius:45px;
+  background:#000;
+  padding:6px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.9);
+}
+
+/* الشاشة */
+.screen{
+  width:100%;
+  height:100%;
+  border-radius:40px;
+  overflow:hidden;
+  position:relative;
+  background:url("https://picsum.photos/400/800") center/cover;
+}
+
+/* overlay */
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.25);
+}
+
+/* ===== NOTCH / CAMERA ===== */
+.notch{
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+
+  width:120px;
+  height:32px;
+
+  background:#000;
+  border-radius:20px;
+
+  z-index:100;
+  box-shadow:0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* عدسة */
+.notch::before{
+  content:"";
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:10px;
+  height:10px;
+  background:#222;
+  border-radius:50%;
+}
+
+/* سماعة */
+.notch::after{
+  content:"";
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:6px;
+  background:#222;
+  border-radius:10px;
+}
+
+/* ===== STATUS BAR ===== */
+.statusBar{
+  position:absolute;
+  top:8px;
+  left:0;
+  width:100%;
+  padding:0 15px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  color:white;
+  font-size:14px;
+  font-weight:500;
+
+  z-index:90;
+  pointer-events:none;
+}
+
+.statusBar .right{
+  display:flex;
+  gap:6px;
+}
+
+/* LOCK */
+.lock{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  background:rgba(0,0,0,0.6);
+  z-index:30;
+}
+
+.lock button{
+  margin-top:20px;
+  padding:10px 22px;
+  border:none;
+  border-radius:20px;
+}
+
+/* HOME */
+.home{
+  position:absolute;
+  inset:0;
+  display:none;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  padding:100px 18px 0;
+  z-index:5;
+}
+
+/* APP */
+.app{
+  width:60px;
+  height:60px;
+  border-radius:18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:22px;
+  color:white;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(10px);
+  cursor:pointer;
+}
+
+/* APP PAGE */
+.appPage{
+  position:absolute;
+  inset:0;
+  background:#fff;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+
+/* BACK */
+.back{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:10px 25px;
+  border:none;
+  border-radius:20px;
+  background:#000;
+  color:#fff;
+}
+
+/* ===== DOCK ===== */
+.dock{
+  position:absolute;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  width:92%;
+  height:85px;
+
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(35px);
+
+  border-radius:35px;
+
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  box-shadow:0 15px 40px rgba(0,0,0,0.35);
+  z-index:20;
+}
+
+.dockItem{
+  width:60px;
+  height:60px;
+  border-radius:18px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-size:22px;
+  background:rgba(255,255,255,0.12);
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.dockItem:active{
+  transform:scale(0.85);
+}
+
+/* ===== HOME INDICATOR ===== */
+.homeIndicator{
+  position:absolute;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+
+  width:120px;
+  height:4px;
+  background:rgba(255,255,255,0.7);
+  border-radius:10px;
+
+  z-index:80;
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+<div class="screen">
+
+<div class="overlay"></div>
+
+<!-- NOTCH -->
+<div class="notch"></div>
+
+<!-- STATUS BAR -->
+<div class="statusBar">
+  <div class="left">
+    <span id="time">9:41</span>
+  </div>
+  <div class="right">
+    📶 📡 🔋
+  </div>
+</div>
+
+<!-- LOCK -->
+<div class="lock" id="lock">
+  <h2>🔒 iPhone</h2>
+  <button onclick="unlock()">فتح الجهاز</button>
+</div>
+
+<!-- HOME -->
+<div class="home" id="home">
+
+  <div class="app" onclick="openApp('call')">📞</div>
+  <div class="app" onclick="openApp('msg')">💬</div>
+  <div class="app" onclick="openApp('cam')">📷</div>
+  <div class="app" onclick="openApp('music')">🎵</div>
+
+  <div class="app" onclick="openApp('safari')">🌐</div>
+  <div class="app" onclick="openApp('settings')">⚙️</div>
+  <div class="app" onclick="openApp('gallery')">🖼️</div>
+  <div class="app" onclick="openApp('maps')">🗺️</div>
+
+</div>
+
+<!-- APPS -->
+<div class="appPage" id="call"><h2>📞 الاتصال</h2><button class="back" onclick="backHome()">رجوع</button></div>
+<div class="appPage" id="msg"><h2>💬 الرسائل</h2><button class="back" onclick="backHome()">رجوع</button></div>
+<div class="appPage" id="cam"><h2>📷 الكاميرا</h2><button class="back" onclick="backHome()">رجوع</button></div>
+<div class="appPage" id="music"><h2>🎵 الموسيقى</h2><button class="back" onclick="backHome()">رجوع</button></div>
+<div class="appPage" id="safari"><h2>🌐 المتصفح</h2><button class="back" onclick="backHome()">رجوع</button></div>
+<div class="appPage" id="settings"><h2>⚙️ الإعدادات</h2><button class="back" onclick="backHome()">رجوع</button></div>
+<div class="appPage" id="gallery"><h2>🖼️ الصور</h2><button class="back" onclick="backHome()">رجوع</button></div>
+<div class="appPage" id="maps"><h2>🗺️ الخرائط</h2><button class="back" onclick="backHome()">رجوع</button></div>
+
+<!-- DOCK -->
+<div class="dock" id="dock">
+
+  <div class="dockItem" onclick="openApp('call')">📞</div>
+  <div class="dockItem" onclick="openApp('msg')">💬</div>
+  <div class="dockItem" onclick="openApp('safari')">🌐</div>
+  <div class="dockItem" onclick="openApp('music')">🎵</div>
+
+</div>
+
+<!-- HOME INDICATOR -->
+<div class="homeIndicator"></div>
+
+</div>
+</div>
+
+<script>
+
+let state="lock";
+let current=null;
+
+/* time */
+function updateTime(){
+  const now=new Date();
+  let h=now.getHours();
+  let m=now.getMinutes();
+  if(m<10)m="0"+m;
+  document.getElementById("time").innerText=h+":"+m;
+}
+setInterval(updateTime,1000);
+updateTime();
+
+function render(){
+
+  const lock=document.getElementById("lock");
+  const home=document.getElementById("home");
+  const apps=document.querySelectorAll(".appPage");
+  const dock=document.getElementById("dock");
+
+  lock.style.display="none";
+  home.style.display="none";
+  apps.forEach(a=>a.style.display="none");
+  dock.style.display="none";
+
+  if(state==="lock") lock.style.display="flex";
+  if(state==="home"){
+    home.style.display="grid";
+    dock.style.display="flex";
+  }
+  if(state==="app" && current){
+    document.getElementById(current).style.display="flex";
+  }
+}
+
+function unlock(){
+  state="home";
+  render();
+}
+
+function openApp(id){
+  state="app";
+  current=id;
+  render();
+}
+
+function backHome(){
+  state="home";
+  current=null;
+  render();
+}
+
+render();
+
+</script>
+
+</body>
+
+</html>
